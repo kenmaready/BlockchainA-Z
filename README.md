@@ -13,3 +13,17 @@ pipenv run main
 pipenv run main2
 pipenv run main3
 ```
+
+In order to create a network among the three, would need to add all nodes to each running server, via a POST request to each server with a json body consisting of a list of the nodes, e.g.:
+
+```
+{
+  "nodes": [
+    "http://127.0.0.1:5001",
+    "http://127.0.0.1:5002",
+    "http://127.0.0.1:5003"
+  ]
+}
+```
+
+Once they are updated, conduct some transactions on any of them, using the "/transaction" (POST request with a json object including a "sender", "receiver" and "amount") to add transactions to a particular node, and then "/mine" (GET request) that node in order to mine a new block and add the pool of transactions to the blockchain. Then can call "/update" (GET request) from each of the nodes to update the ledger across the network.
