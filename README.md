@@ -1,3 +1,5 @@
+This is a simplified blockchain and cryptocurrency network from coding along with Hadelin and Kirill on the "Blockchain A-Z" course on Udemy. The code is somewhat different from the actual course code.
+
 The "main" file is the entry point. Run from command line:
 
 ```
@@ -14,7 +16,7 @@ pipenv run main2
 pipenv run main3
 ```
 
-In order to create a network among the three, would need to add all nodes to each running server, via a POST request to each server with a json body consisting of a list of the nodes, e.g.:
+In order to create a network among the three, would need to add all nodes to each running server, via a POST request to each server's "/node" path with a json body consisting of a list of the nodes, e.g.:
 
 ```
 {
@@ -26,4 +28,14 @@ In order to create a network among the three, would need to add all nodes to eac
 }
 ```
 
-Once they are updated, conduct some transactions on any of them, using the "/transaction" (POST request with a json object including a "sender", "receiver" and "amount") to add transactions to a particular node, and then "/mine" (GET request) that node in order to mine a new block and add the pool of transactions to the blockchain. Then can call "/update" (GET request) from each of the nodes to update the ledger across the network.
+Once they are updated, conduct some transactions on any of them, using the "/transaction" (POST request with a json object including a "sender", "receiver" and "amount") to add transactions to a particular node, e.g.:
+
+```
+{
+  "sender": "homer",
+  "receiver": "marge",
+  "amount": 19.32
+}
+```
+
+To create a block from a node, hit the "/mine" with simple GET request. Mining a block will automatically add any currently outststanding transactions from that node to the newly mined block. Then can call "/update" (GET request) from each of the nodes to update the ledger across the network. If there are simultaneous blocks being created on different nodes, then the longest chain will win when updating and replace all others upon update. (If there are different chains of equal length, then the first chain of that length reached while polling all the nodes will win.)
